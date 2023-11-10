@@ -40,12 +40,14 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
+//returns Error if the table can't be created or found in DB.
 func ensureTableExists() {
 	if _, err := a.DB.Exec(tableCreationQuery); err != nil {
 		log.Fatal(err)
 	}
 }
 
+//Clears changes from table and resets prod id numbers
 func clearTable() {
 	a.DB.Exec("DELETE FROM products")
 	a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
@@ -70,6 +72,7 @@ func TestEmptyTable (t *testing.T) {
 	}
 }
 
+//Execute HTTP Request and return the response 
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	rr := httptest.NewRecorder()
 	a.Router.ServeHTTP(rr,req)
@@ -77,6 +80,7 @@ func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	return rr
 }
 
+//Check response code and print results if they don't match. 
 func checkResponseCode(t *testing.T, expected int, response *httptest.ResponseRecorder) { //Would make it easier to debug if we print more information from response instead of just Code 
 	if expected != response.Code {
 		t.Errorf("Expected response code %d. Got %d\n", expected, response.Code)
