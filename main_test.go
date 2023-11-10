@@ -140,7 +140,7 @@ func addProducts(count int) {
 	}
 
 	for i := 0; i < count; i++ {
-        a.DB.Exec("INSERT INTO products(name, price) VALUES($1, $2)", "Product "+strconv.Itoa(i), (i+1.0)*10)
+        a.DB.Exec("INSERT INTO products(name, price) VALUES($1, $2)", "Product "+ strconv.Itoa(i), (i+1.0)*10)
     }
 }
 
@@ -157,7 +157,7 @@ func TestUpdateProduct(t *testing.T) {
 	var jsonStr = []byte(`{"name":"test product - updated name", "price": 11.22}`)
 	req,_ = http.NewRequest("PUT", "/product/1", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	
+
 	response = executeRequest(req)
 
 	checkResponseCode(t, http.StatusOK, response.Code)
