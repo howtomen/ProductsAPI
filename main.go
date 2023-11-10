@@ -13,7 +13,7 @@ var (
 func main() {
 	//Get Database info from flags.
 	flag.StringVar(&DB_username, "username", "postgres", "Username for PSQL DB")
-	flag.StringVar(&DB_pass, "password", "password123", "Password for PSQL DB")
+	flag.StringVar(&DB_pass, "password", "randpasssecure123", "Password for PSQL DB")
 	flag.StringVar(&DB_name, "db", "Products-1", "Name of the PSQL DB")
 	flag.Parse()
 

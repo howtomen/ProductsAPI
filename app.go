@@ -52,7 +52,7 @@ func (a *App) getProduct(w http.ResponseWriter, r *http.Request) {
 		return 
 	}
 	
-	p:= product{ID: id}
+	p := product{ID: id}
 	if err := p.getProduct(a.DB); err != nil {
 		switch err {
 		case sql.ErrNoRows:
