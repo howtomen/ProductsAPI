@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/howtomen/productsapi"
+	"github.com/howtomen/productsapi" 
 )
 
 var (
@@ -28,13 +28,14 @@ func TestMain(m *testing.M) {
 	flag.StringVar(&DB_name, "db", "Products-1", "Name of the PSQL DB")
 	flag.Parse()
 
+	//initialize DB
 	a.Initialize(
 		DB_username,
 		DB_pass,
 		DB_name)
 
-	ensureTableExists()
-	code := m.Run()
+	ensureTableExists() 
+	code := m.Run() //run test
 	clearTable()
 	os.Exit(code)
 }
@@ -62,7 +63,7 @@ func TestEmptyTable (t *testing.T) {
 	clearTable()
 	req,_ := http.NewRequest("GET","/products",nil)
 	response := executeRequest(req)
-	checkResponseCode(t,http.StatusOK,response.Code)
+	checkResponseCode(t,http.StatusOK,response)
 
 	if body := response.Body.String(); body != "[]" {
 		t.Errorf("Expected Empty array. Got %s", body)
@@ -76,9 +77,9 @@ func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	return rr
 }
 
-func checkResponseCode(t *testing.T, expected, actual int) {
-	if expected != actual {
-		t.Errorf("Expected responsecode %d. Got %d\n", expected, actual)
+func checkResponseCode(t *testing.T, expected int, response *httptest.ResponseRecorder) { //Would make it easier to debug if we print more information from response instead of just Code 
+	if expected != response.Code {
+		t.Errorf("Expected response code %d. Got %d\n", expected, response.Code)
 	}
 }
 
@@ -88,7 +89,7 @@ func TestNonexistentProduct(t *testing.T) {
 	req,_ := http.NewRequest("GET","/product/11", nil)
 	response := executeRequest(req)
 
-	checkResponseCode(t,http.StatusNotFound,response.Code)
+	checkResponseCode(t,http.StatusNotFound,response)
 
 	m := map[string]string{}
 
@@ -106,7 +107,7 @@ func TestCreateProduct(t *testing.T) {
 	req.Header.Set("Content-Type","application/json")
 
 	response := executeRequest(req)
-	checkResponseCode(t, http.StatusCreated, response.Code)
+	checkResponseCode(t, http.StatusCreated, response)
 
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
@@ -131,7 +132,7 @@ func TestGetProduct(t *testing.T) {
 	req,_ := http.NewRequest("GET", "/product/1", nil)
 	response := executeRequest(req)
 
-	checkResponseCode(t, http.StatusOK, response.Code)
+	checkResponseCode(t, http.StatusOK, response)
 }
 
 func addProducts(count int) {
@@ -160,7 +161,7 @@ func TestUpdateProduct(t *testing.T) {
 
 	response = executeRequest(req)
 
-	checkResponseCode(t, http.StatusOK, response.Code)
+	checkResponseCode(t, http.StatusOK, response)
 
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
@@ -184,13 +185,13 @@ func TestDeleteProduct(t *testing.T) {
 
 	req,_ := http.NewRequest("GET", "/product/1", nil)
 	response := executeRequest(req)
-	checkResponseCode(t, http.StatusOK, response.Code)
+	checkResponseCode(t, http.StatusOK, response)
 
 	req, _ = http.NewRequest("DELETE", "/product/1", nil)
 	response = executeRequest(req)
-	checkResponseCode(t, http.StatusOK, response.Code)
+	checkResponseCode(t, http.StatusOK, response)
 
 	req,_ = http.NewRequest("GET", "/product/1", nil)
 	response = executeRequest(req)
-	checkResponseCode(t, http.StatusNotFound, response.Code)
+	checkResponseCode(t, http.StatusNotFound, response)
 }
