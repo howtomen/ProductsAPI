@@ -4,10 +4,10 @@ A Simple Products REST API that connects to a PSQL DB.
 Skills, tools and libraries used/practiced:
 1.  Used Docker to create PSQL Container. Created two containers, one for PSQL instance and one as data volume.
     a. This allows for PSQL to be updated without impacting database and stored data. 
-2. Practiced TDD (Test Driven Development). Developed Tests before implementing API methods. This was to get an introduction into testing on Golang and work testing and httptest libraries
+2. Practiced TDD (Test Driven Development). Developed Tests before implementing API methods. This was to get an introduction into testing on Golang and familiarize myself with the testing and httptest libraries
 3. Used Gorilla Mux to handle routing for API   
     a. trying out different libraries, as in my last Go API I used gin to handle routing.
-4. Implemented and test ability to create new product, update existing product, delete an existing product, fetching an existing product, fetching a list of products. 
+4. Implemented tests for creating new product, updating existing product, deleting an existing product, fetching an existing product, fetching a list of products. 
 
 TODO: 
 Add more Tests/Features. Potentially change database and methods.
